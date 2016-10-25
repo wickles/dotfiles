@@ -4,6 +4,7 @@
 
 ## miscellaneous
 
+alias ls='ls --color=auto'
 alias please='sudo '
 alias fucking='sudo '
 alias wget-test="wget -O /dev/null"
