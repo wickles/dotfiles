@@ -1,0 +1,15 @@
+# MacPorts Installer addition: adding an appropriate PATH variable for use with MacPorts.
+#export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# removed in favor of localization function `macports`
+
+# added by Anaconda2 4.1.1 installer
+export PATH="$HOME/anaconda/bin:$PATH"
+
+# PSP toolchain paths
+export PSPDEV=/usr/local/pspdev
+export PATH=$PATH:$PSPDEV/bin
+
+# Java path
+#export JAVA_HOME=
+# handled automatically by homebrew-cask installation?
+
