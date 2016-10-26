@@ -7,11 +7,15 @@ export __PROFILE__="true"
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH"
 
+source_if () {
+	[ -r "$1" ] && [ -f "$1" ] && source "$1";
+}
+
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{path,prompt,exports,aliases,functions,extra}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+for file in ~/.{path,exports,aliases,functions,extra}; do
+	source_if $file
 done;
 unset file;
 
@@ -24,3 +28,5 @@ fi
 if [ -n "$ZSH" ] && [ -z "$__ZSHRC__" ]; then
     source ~/.zshrc
 fi
+
+unset __PROFILE__

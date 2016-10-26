@@ -37,7 +37,7 @@ export SCM_CHECK=true
 # export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
 
 # Load Bash It
-source $BASH_IT/bash_it.sh
+source_if $BASH_IT/bash_it.sh
 
 
 ### Load additional config, if necessary
@@ -45,3 +45,4 @@ if [ -z "$__BASHRC__" ]; then
     source ~/.bashrc
 fi
 
+unset __BASH_PROFILE__

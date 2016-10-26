@@ -7,10 +7,14 @@ if [ -z "$__PROFILE__" ]; then
     source ~/.profile
 fi
 
+# source additional config files if they exist
+for file in ~/.bash_prompt; do
+	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
 if [ -z "$__BASH_PROFILE__" ]; then
     source ~/.bash_profile
 fi
 
 unset __BASHRC__
-
-# old bash config deleted in favor of bash-it. see backups if curious. 

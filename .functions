@@ -1,10 +1,20 @@
 #!/bin/bash
 ### shell-ambiguous functions
 
+# define colorized 'ls', being careful about OS distinctions
+case "$OSTYPE" in
+	darwin* | bsd* )
+		alias ls='/bin/ls -G' ;;
+	#linux*) echo "LINUX" ;;
+	#bsd*) echo "BSD" ;;
+	#solaris*) echo "SOLARIS" ;;
+	*)
+		alias ls='ls --color=auto' ;;
+esac
+
 
 ## miscellaneous
 
-alias ls='ls --color=auto'
 alias please='sudo '
 alias fucking='sudo '
 alias wget-test="wget -O /dev/null"
