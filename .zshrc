@@ -10,7 +10,7 @@ fi
 
 # source additional config files if they exist
 for file in ~/.zsh_prompt; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+	source_if $file;
 done;
 unset file;
 
