@@ -2,7 +2,7 @@
 " Readme: http://vimdoc.sourceforge.net/htmldoc/options.html for details
 
 
-" Pathogen: run plugins
+" Pathogen: run plugins from .vim/bundle/
 "execute pathogen#infect()
 " Deprecated in favor of vim-plug plugin manager
 
@@ -12,7 +12,7 @@
 " https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 " vim-plug setup begin
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/bundle')
 
 " Declare plugins here
 
@@ -40,7 +40,7 @@ call plug#end()
 filetype plugin indent on
 
 " syntax highlighting?
-syntax on
+syntax enable
 
 " Set number of colors supported
 set t_Co=256
@@ -58,7 +58,7 @@ set background=dark
 " solarized specific settings
 "let g:solarized_termcolors=256
 "let g:solarized_termtrans=1
-"let g:solarized_visibility=normal
+"let g:solarized_visibility="normal"
 colorscheme solarized
 
 
