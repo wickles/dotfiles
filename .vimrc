@@ -13,11 +13,13 @@
 
 " vim-plug setup begin
 call plug#begin('~/.vim/bundle')
-
 " Declare plugins here
 
 " solarized vim colors from Github
 Plug 'altercation/vim-colors-solarized'
+
+" Large colorschemes collection from Github
+"Plug 'flazz/vim-colorschemes'
 
 " Add plugins to &runtimepath
 call plug#end()
