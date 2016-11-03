@@ -1,3 +1,4 @@
+#!/bin/bash
 # setup config profiling
 export __BASH_PROFILE__="true"
 

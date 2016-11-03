@@ -1,15 +1,18 @@
+#!/bin/bash
 #### Shell-ambiguous configuration
 # shell-specific config loaded at bottom
 export __PROFILE__="true"
 
 ### 3rd party config
 
-# Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH"
+# Add local bin to the `$PATH`
+export LOCAL_HOME="$HOME/local"
+export PATH="$LOCAL_HOME/bin:$PATH"
 
 source_if () {
 	[ -r "$1" ] && [ -f "$1" ] && source "$1";
 }
+#export -f source_if
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.

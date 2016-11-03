@@ -1,3 +1,4 @@
+#!/bin/zsh
 # setup config profiling
 export __ZSHRC__="true"
 #unset __BASHRC__

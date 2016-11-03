@@ -1,3 +1,4 @@
+#!/bin/zsh
 # setup config profiling
 export __ZSH_PROFILE__="true"
 

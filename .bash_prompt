@@ -58,7 +58,7 @@ fi;
 dirStyle="${cyan}";
 gitStyle="${green}";
 
-source ~/init/git-prompt.sh
+source $LOCAL_HOME/init/git-prompt.sh
 
 # Set the terminal title and prompt.
 #PS1="\[\033]0;\W\007\]"; # working directory base name

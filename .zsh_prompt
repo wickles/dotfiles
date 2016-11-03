@@ -1,7 +1,7 @@
 # autoload zsh prompts & themes
 #autoload -Uz promptinit && promptinit
 
-source ~/init/git-prompt.sh
+source $LOCAL_HOME/init/git-prompt.sh
 
 # autoload zsh colors
 autoload -Uz colors && colors
