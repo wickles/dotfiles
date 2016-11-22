@@ -5,9 +5,11 @@ export __PROFILE__="true"
 
 ### 3rd party config
 
-# Add local bin to the `$PATH`
-export LOCAL_HOME="$HOME/local"
-export PATH="$LOCAL_HOME/bin:$PATH"
+# Add local directories to the environment paths
+export USER_PREFIX="$HOME/local"
+export PATH="$USER_PREFIX/sbin:$USER_PREFIX/bin:$PATH"
+#export LD_LIBRARY_PATH="$USER_PREFIX/lib64:$USER_PREFIX/lib:$LD_LIBRARY_PATH"
+export DYLD_LIBRARY_PATH="$USER_PREFIX/lib64:$USER_PREFIX/lib:$DYLD_LIBRARY_PATH"
 
 source_if () {
 	[ -r "$1" ] && [ -f "$1" ] && source "$1";
