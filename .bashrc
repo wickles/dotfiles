@@ -5,7 +5,7 @@ export __BASHRC__="true"
 unset ZSH
 
 if [[ $- == *i* ]]; then
-	source .bash_profile
+	source $HOME/.bash_profile
 fi
 
 ##pragma once

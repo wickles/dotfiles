@@ -5,7 +5,7 @@ export __ZSHRC__="true"
 unset BASH
 
 if [[ $- == *i* ]]; then
-	source .zprofile
+	source $HOME/.zprofile
 fi
 
 ##pragma once
