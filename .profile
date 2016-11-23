@@ -2,8 +2,6 @@
 ##pragma once
 export __PROFILE__="true"
 
-echo "loading .profile"
-
 # Add local directories to the environment paths
 export USER_PREFIX="$HOME/local"
 export PATH="$USER_PREFIX/sbin:$USER_PREFIX/bin:$PATH"

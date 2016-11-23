@@ -3,7 +3,6 @@
 export __ZPROFILE__="true"
 
 ## basic setup
-echo "loading .zprofile"
 function source_if () {
 	for file in "$@"; do
 		[ -r "$file" ] && [ -f "$file" ] && source "$file"
