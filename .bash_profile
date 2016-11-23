@@ -8,11 +8,12 @@ function source_if () {
 		[ -r "$file" ] && [ -f "$file" ] && source "$file"
 	done
 }
-source_if $HOME/.bash_prompt
 
 if [ -z "$__PROFILE__" ]; then
 	source_if $HOME/.profile
 fi
+
+source_if $HOME/.bash_prompt
 
 
 ## BEGIN bash-it configuration
