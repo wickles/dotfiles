@@ -1,7 +1,25 @@
 #!/bin/zsh
 # setup config profiling
-export __ZSH_PROFILE__="true"
+export __ZPROFILE__="true"
 
+## basic setup
+echo "loading .zprofile"
+function source_if () {
+	for file in "$@"; do
+		[ -r "$file" ] && [ -f "$file" ] && source "$file"
+	done
+}
+source_if $HOME/.zsh_prompt
+
+if [ -z "$__PROFILE__" ]; then
+	source_if $HOME/.profile
+fi
+
+
+## BEGIN oh-my-zsh configuration
+
+# fixes something about username in prompt
+export DEFAULT_USER="$(whoami)"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -86,12 +104,8 @@ source_if $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export DEFAULT_USER="$(whoami)"
+## END oh-my-zsh configuration
 
 
-### Load additional config, if necessary
-if [ -z "$__ZSHRC__" ]; then
-    source ~/.zsh
-fi
-
-unset __ZSH_PROFILE__
+##pragma once
+unset __ZPROFILE__

@@ -1,21 +1,12 @@
 #!/bin/bash
-# setup config profiling
+##pragma once
 export __BASHRC__="true"
 #unset __ZSHRC__
 unset ZSH
 
-if [ -z "$__PROFILE__" ]; then
-    source ~/.profile
+if [[ $- == *i* ]]; then
+	source .bash_profile
 fi
 
-# source additional config files if they exist
-for file in ~/.bash_prompt; do
-	source_if $file;
-done;
-unset file;
-
-if [ -z "$__BASH_PROFILE__" ]; then
-    source ~/.bash_profile
-fi
-
+##pragma once
 unset __BASHRC__

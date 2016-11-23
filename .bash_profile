@@ -1,7 +1,21 @@
 #!/bin/bash
-# setup config profiling
+##pragma once
 export __BASH_PROFILE__="true"
 
+## basic setup
+function source_if () {
+	for file in "$@"; do
+		[ -r "$file" ] && [ -f "$file" ] && source "$file"
+	done
+}
+source_if $HOME/.bash_prompt
+
+if [ -z "$__PROFILE__" ]; then
+	source_if $HOME/.profile
+fi
+
+
+## BEGIN bash-it configuration
 
 # Path to the bash it configuration
 export BASH_IT="$HOME/.bash_it"
@@ -40,10 +54,8 @@ export SCM_CHECK=true
 # Load Bash It
 source_if $BASH_IT/bash_it.sh
 
+## END bash-it configuration
 
-### Load additional config, if necessary
-if [ -z "$__BASHRC__" ]; then
-    source ~/.bashrc
-fi
 
+##pragma once
 unset __BASH_PROFILE__
