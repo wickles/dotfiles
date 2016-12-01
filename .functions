@@ -21,42 +21,55 @@ alias wget-test="wget -O /dev/null"
 alias speedtest-cachefly="wget-test http://cachefly.cachefly.net/100mb.test"
 alias speedtest-tele2="wget-test http://speedtest.tele2.net/100MB.zip"
 
-# run "tmux update-env" to fix environment in tmux panes
+# run "tmux-update-env-*" to fix environment in a tmux pane
 # https://raim.codingfarm.de/blog/2013/01/30/tmux-update-environment/
-function tmux() {
-    local tmux=$(type -fp tmux)
-    case "$1" in
-        update-environment|update-env|env-update)
-            local v
-            while read v; do
-                if [[ $v == -* ]]; then
-                    unset ${v/#-/}
-                else
-                    # Add quotes around the argument
-                    v=${v/=/=\"}
-                    v=${v/%/\"}
-                    eval export $v
-                fi
-            done < <(tmux show-environment)
-            ;;
-        *)
-            $tmux "$@"
-            ;;
-    esac
+tmux-update-env () {
+    local v
+    while read v; do
+        if [[ $v == -* ]]; then
+            unset ${v/#-/}
+        else
+            # Add quotes around the argument
+            v=${v/=/=\"}
+            v=${v/%/\"}
+            eval export $v
+        fi
+    done < <(tmux show-environment)
+}
+
+tmux-update-env-zsh () {
+    local v
+    while read v; do
+        if [[ $v == -* ]]; then
+            unset ${v/#-/}
+        else
+            # Add quotes around the argument
+            v=${v:s/=/=\"}
+            v=${v}\"
+            eval export $v
+        fi
+    done < <(tmux show-environment)
 }
 
 
 ## Mac specific fuctions
 
-# commands for brew/cask stuff
-#alias cask="brew cask"
-alias brew-cask-upgrade="brew cask install --force"
+# macOS fixes
 # fix app store being retarded by killing all the shit
 alias fix-appstore="pkill storedownload storeasset storeacc storeuid storeleg storeinst"
 # fix Dock and/or Launchpad
 alias fix-dock="killall Dock"
 # reload hosts file -- must be run with sudo
 alias reload-hosts="dscacheutil -flushcache; killall -HUP mDNSResponder"
+
+# commands for brew/cask stuff
+alias brew-cask-upgrade="brew cask install --force"
+
+# setup desired version of root
+alias set-root5-bash="source \$(brew --prefix root)/libexec/thisroot.sh"
+alias set-root5-zsh="pushd \$(brew --prefix root) >/dev/null; source libexec/thisroot.sh; popd >/dev/null"
+alias set-root6-bash="source \$(brew --prefix root6)/libexec/thisroot.sh"
+alias set-root6-zsh="pushd \$(brew --prefix root6) >/dev/null; source libexec/thisroot.sh; popd >/dev/null"
 
 # new functions for cask
 brew-cask-installed () {
