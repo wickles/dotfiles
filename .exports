@@ -28,3 +28,6 @@ export NODE_REPL_MODE='sloppy';
 
 # Don’t clear the screen after quitting a manual page.
 #export MANPAGER='less -X';
+
+# Make git ps1 command show dirty state
+export GIT_PS1_SHOWDIRTYSTATE='true'
