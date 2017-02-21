@@ -21,6 +21,9 @@ Plug 'altercation/vim-colors-solarized'
 " Large colorschemes collection from Github
 "Plug 'flazz/vim-colorschemes'
 
+" Visually display indent levels
+Plug 'nathanaelkane/vim-indent-guides'
+
 " Add plugins to &runtimepath
 call plug#end()
 " vim-plug setup end
@@ -82,7 +85,7 @@ set fileencodings=utf-8
 
 " Show whitespace, all by default. Modify the 'listchars' command to adjust
 set list
-set listchars=tab:\|\ ,trail:~
+set listchars=tab:\|\ ,trail:~,extends:>,precedes:<
 
 " Show line numbers.
 set number
@@ -131,7 +134,7 @@ set shiftwidth=4
 " Spaces are used in indents with the '>' and '<' commands
 " and when 'autoindent' is on. To insert a real tab when
 " 'expandtab' is on, use CTRL-V <Tab>.
-"set expandtab
+set expandtab
 
 " When on, a <Tab> in front of a line inserts blanks
 " according to 'shiftwidth'. 'tabstop' is used in other
