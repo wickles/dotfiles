@@ -13,7 +13,7 @@ function doIt() {
 		--exclude "README.md" \
 		--exclude "LICENSE.txt" \
 		-avh --no-perms . ~;
-	source ~/.profile;
+	#source ~/.profile;
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
