@@ -1,6 +1,13 @@
 # shell-ambiguous configuration
+# This file should contain environment configuration application to ALL shells.
+# Tt should only be run ONCE at shell initialization.
+# This file will not be called automatically, except on some systems if .bash_profile,
+#  .zprofile, etc do not exist. 
+
 ##pragma once
-export __PROFILE__="true"
+if [ -n "$__PROFILE" ]; then return; fi
+export __PROFILE="true"
+#echo "executing .profile ..."
 
 # Add local directories to the environment paths
 export USER_PREFIX="$HOME/local"
@@ -10,14 +17,16 @@ export PATH="$USER_PREFIX/sbin:$USER_PREFIX/bin:$PATH"
 
 function source_if () {
 	for file in "$@"; do
+		#echo "sourcing $file ..."
 		[ -r "$file" ] && [ -f "$file" ] && source "$file"
 	done
 }
 
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
-source_if $HOME/.{path,exports,aliases,functions,extra}
+# Load additional settings ...
+#  .path should be used to extend `$PATH`.
+#  .exports should be used for miscellaneous exports.
+#  .extra should be used for other miscellaneous configuration.
+source_if $HOME/.{path,exports,extra}
 
 ##pragma once
-unset __PROFILE__
+#unset __PROFILE

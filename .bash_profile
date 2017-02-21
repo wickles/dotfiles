@@ -1,19 +1,27 @@
 #!/bin/bash
-##pragma once
-export __BASH_PROFILE__="true"
+# bash interactive configuration
+# This file is sourced in interactive login mode. It is NOT sourced in non-login
+#  shells, therefore it should be sourced manually from .bashrc after checking
+#  for interactive mode.
+# It should source .profile manually if needed.
+# It should contain your basic bash configuration.
 
-## basic setup
+##pragma once
+if [ -n "$__BASH_PROFILE" ]; then return; fi
+export __BASH_PROFILE="true"
+unset ZSH
+#echo "executing .bash_profile ..."
+
 function source_if () {
 	for file in "$@"; do
+		#echo "sourcing $file ..."
 		[ -r "$file" ] && [ -f "$file" ] && source "$file"
 	done
 }
 
-if [ -z "$__PROFILE__" ]; then
-	source_if $HOME/.profile
-fi
-
+source_if $HOME/.profile
 source_if $HOME/.bash_prompt
+source_if $HOME/.{aliases,functions}
 
 
 ## BEGIN bash-it configuration
@@ -59,4 +67,4 @@ source_if $BASH_IT/bash_it.sh
 
 
 ##pragma once
-unset __BASH_PROFILE__
+unset __BASH_PROFILE
