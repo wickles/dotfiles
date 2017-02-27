@@ -13,16 +13,24 @@
 
 " vim-plug setup begin
 call plug#begin('~/.vim/bundle')
-" Declare plugins here
 
-" solarized vim colors from Github
-Plug 'altercation/vim-colors-solarized'
+" Declare plugins here
 
 " Large colorschemes collection from Github
 "Plug 'flazz/vim-colorschemes'
 
+" solarized vim colors from Github
+Plug 'altercation/vim-colors-solarized'
+
+" Use tabs for indent, spaces for alignment
+"Plug 'vim-scripts/Smart-Tabs'
+
 " Visually display indent levels
 Plug 'nathanaelkane/vim-indent-guides'
+
+" Python syntax highlighting
+Plug 'hdima/python-syntax'
+let python_highlight_string_formatting = 1
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -126,6 +134,10 @@ set backspace=indent,eol,start
 
 " Number of spaces that a <Tab> in the file counts for.
 set tabstop=4
+
+" Number of spaces that a <Tab> counts for while performing editing
+" operations, like inserting a <Tab> or using <BS>.
+"set softtabstop=0
 
 " Number of spaces to use for each step of (auto)indent.
 set shiftwidth=4
