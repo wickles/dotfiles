@@ -163,12 +163,16 @@ set autoindent
 set copyindent
 set preserveindent
 
-" Maximum width of text that is being inserted. A longer
-" line will be broken after white space to get this width.
+" Maximum width of text that is being inserted. A longer line will
+" be broken after white space to get this width.
 "set textwidth=79
 
-" This is a sequence of letters which describes how
-" automatic formatting is to be done.
+" comma separated list of screen columns that are highlighted with
+" ColorColumn. Useful to align text.
+set colorcolumn=80
+
+" This is a sequence of letters which describes how automatic
+" formatting is to be done.
 " letter    meaning when present in 'formatoptions'
 " ------    ---------------------------------------
 " c         Auto-wrap comments using textwidth, inserting
@@ -178,6 +182,5 @@ set preserveindent
 "           after hitting <Enter> in Insert mode.
 " t         Auto-wrap text using textwidth (does not apply
 "           to comments)
-"set formatoptions=c,q,r,t
 set formatoptions=q
 
