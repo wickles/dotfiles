@@ -95,7 +95,7 @@ brew-cask-outdated () {
             if [ -z "$tests" ]; then
                 echo "$line < $latest"
             fi
-            if [ -n "$(echo $line | grep latest)" ] || [ -n "$(echo $latest | grep latest)" ]; then
+            if [ -n "$(echo $latest | grep latest)" ]; then # || [ -n "$(echo $line | grep latest)" ]; then
                 warn=$(echo "$warn"; echo "$line <= $latest")
             fi
        done
@@ -108,13 +108,13 @@ brew-cask-outdated () {
             if [ -z "$tests" ]; then
                 echo "$line < $latest"
             fi
-            if [ -n "$(echo $line | grep latest)" ] || [ -n "$(echo $latest | grep latest)" ]; then
+            if [ -n "$(echo $latest | grep latest)" ]; then # || [ -n "$(echo $line | grep latest)" ]; then
                 warn=$(echo "$warn"; echo "$line <= $latest")
             fi
         done
     fi
     if [ -n "$warn" ]; then
-        printf "NOTICE: some versions matched 'latest'"
+        printf "NOTICE: some latest versions matched 'latest'"
         echo "$warn"
     fi
 }
