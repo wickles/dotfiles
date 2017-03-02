@@ -28,9 +28,12 @@ Plug 'altercation/vim-colors-solarized'
 " Visually display indent levels
 Plug 'nathanaelkane/vim-indent-guides'
 
-" Python syntax highlighting
+" Python enhanced syntax highlighting
 Plug 'hdima/python-syntax'
 let python_highlight_string_formatting = 1
+
+" C++ enhanced syntax highlighting
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -137,7 +140,8 @@ set tabstop=4
 
 " Number of spaces that a <Tab> counts for while performing editing
 " operations, like inserting a <Tab> or using <BS>.
-"set softtabstop=0
+" Does not affect start-of-line indentation when expandtab is enabled.
+"set softtabstop=2
 
 " Number of spaces to use for each step of (auto)indent.
 set shiftwidth=4
