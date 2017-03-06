@@ -25,6 +25,9 @@ Plug 'altercation/vim-colors-solarized'
 " Use tabs for indent, spaces for alignment
 "Plug 'vim-scripts/Smart-Tabs'
 
+" Pasting in Vim with indentation adjusted to destination context
+Plug 'sickill/vim-pasta'
+
 " Visually display indent levels
 Plug 'nathanaelkane/vim-indent-guides'
 

@@ -78,7 +78,7 @@ ZSH_THEME="candy-custom"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(colored-man-pages)
+plugins=()
 
 source_if $ZSH/oh-my-zsh.sh
 
