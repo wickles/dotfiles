@@ -25,6 +25,9 @@ Plug 'altercation/vim-colors-solarized'
 " Use tabs for indent, spaces for alignment
 "Plug 'vim-scripts/Smart-Tabs'
 
+" Detects indentation and sets shiftwidth and expandtab accordingly
+Plug 'tpope/vim-sleuth'
+
 " Pasting in Vim with indentation adjusted to destination context
 Plug 'sickill/vim-pasta'
 
@@ -43,15 +46,15 @@ call plug#end()
 " vim-plug setup end
 
 " Commands:
-" PlugInstall [name ...] [#threads]	Install plugins
-" PlugUpdate [name ...] [#threads]	Install or update plugins
-" PlugClean[!]	Remove unused directories (bang version will clean without 
-" 	prompt)
-" PlugUpgrade	Upgrade vim-plug itself
-" PlugStatus	Check the status of plugins
-" PlugDiff	Examine changes from the previous update and the pending changes
-" PlugSnapshot[!] [output path]	Generate script for restoring the 
-" 	current snapshot of the plugins
+" PlugInstall [name ...] [#threads] Install plugins
+" PlugUpdate [name ...] [#threads]  Install or update plugins
+" PlugClean[!]  Remove unused directories (bang version will clean without
+"   prompt)
+" PlugUpgrade   Upgrade vim-plug itself
+" PlugStatus    Check the status of plugins
+" PlugDiff      Examine changes from the previous update and the pending changes
+" PlugSnapshot[!] [output path] Generate script for restoring the
+"   current snapshot of the plugins
 
 
 " Use indentation scripts located in the 'indent'
