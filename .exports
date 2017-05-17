@@ -23,11 +23,10 @@ export NODE_REPL_MODE='sloppy';
 #export LANG='en_US.UTF-8';
 #export LC_ALL='en_US.UTF-8';
 
-# Highlight section titles in manual pages.
-#export LESS_TERMCAP_md="${yellow}";
-
-# Don’t clear the screen after quitting a manual page.
-#export MANPAGER='less -X';
+# Man/less options
+# -X = Don’t clear the screen after quitting a manual page.
+# -i = Ignore search case, unless includes uppercase letters
+export MANPAGER='less -i';
 
 # Make git ps1 command show dirty state
 export GIT_PS1_SHOWDIRTYSTATE='true'

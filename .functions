@@ -1,15 +1,21 @@
 #!/bin/bash
 ### shell-ambiguous functions
+UNAME_OS="$(uname -s)"
+# MacOS -> Darwin
+# Linux -> Linux
+# Cygwin -> CYGWIN_NT-(X.Y)
+# MinGW -> MINGW(32/64)-(X.Y)
+# MSYS -> MSYS_NT-(X.Y)
 
 # define colorized 'ls', being careful about OS distinctions
 case "$OSTYPE" in
-	darwin* | bsd* )
-		alias ls='/bin/ls -G' ;;
-	#linux*) echo "LINUX" ;;
-	#bsd*) echo "BSD" ;;
-	#solaris*) echo "SOLARIS" ;;
-	*)
-		alias ls='ls --color=auto' ;;
+    darwin* | bsd* )
+        alias ls='/bin/ls -G' ;;
+    #linux*) echo "LINUX" ;;
+        #bsd*) echo "BSD" ;;
+        #solaris*) echo "SOLARIS" ;;
+    *)
+        alias ls='ls --color=auto' ;;
 esac
 
 
@@ -17,11 +23,15 @@ esac
 
 alias please='sudo '
 alias fucking='sudo '
+alias get-shell='ps -o command | grep -v -e "\<ps\>" -e grep -e tail | tail -1'
 alias wget-test="wget -O /dev/null"
 alias speedtest-cachefly="wget-test http://cachefly.cachefly.net/100mb.test"
 alias speedtest-tele2="wget-test http://speedtest.tele2.net/100MB.zip"
 
-# run "tmux-update-env-*" to fix environment in a tmux pane
+# setup environment variables for ROOT
+alias src-root='source $(root-config --prefix)/libexec/thisroot.sh'
+
+# run to fix environment in a tmux pane
 # https://raim.codingfarm.de/blog/2013/01/30/tmux-update-environment/
 tmux-update-env () {
     local v
@@ -30,22 +40,13 @@ tmux-update-env () {
             unset ${v/#-/}
         else
             # Add quotes around the argument
-            v=${v/=/=\"}
-            v=${v/%/\"}
-            eval export $v
-        fi
-    done < <(tmux show-environment)
-}
-
-tmux-update-env-zsh () {
-    local v
-    while read v; do
-        if [[ $v == -* ]]; then
-            unset ${v/#-/}
-        else
-            # Add quotes around the argument
-            v=${v:s/=/=\"}
-            v=${v}\"
+            if [[ -n "$ZSH_NAME" ]]; then
+                v=${v:s/=/=\"}
+                v=${v}\"
+            else
+                v=${v/=/=\"}
+                v=${v/%/\"}
+            fi
             eval export $v
         fi
     done < <(tmux show-environment)
@@ -62,16 +63,10 @@ alias fix-dock="killall Dock"
 # reload hosts file -- must be run with sudo
 alias reload-hosts="dscacheutil -flushcache; killall -HUP mDNSResponder"
 
-# commands for brew/cask stuff
+
+## brew-cask alternative/new functions
 alias brew-cask-upgrade="brew cask install --force"
 
-# setup desired version of root
-alias set-root5-bash="source \$(brew --prefix root)/libexec/thisroot.sh"
-alias set-root5-zsh="pushd \$(brew --prefix root) >/dev/null; source libexec/thisroot.sh; popd >/dev/null"
-alias set-root6-bash="source \$(brew --prefix root6)/libexec/thisroot.sh"
-alias set-root6-zsh="pushd \$(brew --prefix root6) >/dev/null; source libexec/thisroot.sh; popd >/dev/null"
-
-# new functions for cask
 brew-cask-installed () {
     local installed=$(brew cask list --versions)
     if [ -z "$1" ]; then

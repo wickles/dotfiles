@@ -1,0 +1,14 @@
+#!/bin/bash
+# Execute commands within ROOT environment wrapper
+
+if [ "$#" -le 0 ]; then
+	echo "Usage: $0 command [arg1, arg2, ...]" >&2
+	#return
+	exit
+fi
+
+source $(root-config --prefix)/libexec/thisroot.sh
+
+command=$1
+shift
+(exec $command $*)
