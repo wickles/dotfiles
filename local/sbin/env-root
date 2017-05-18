@@ -7,7 +7,9 @@ if [ "$#" -le 0 ]; then
 	exit
 fi
 
-source $(root-config --prefix)/libexec/thisroot.sh
+pushd $(root-config --prefix) >/dev/null
+source libexec/thisroot.sh
+popd >/dev/null
 
 command=$1
 shift
