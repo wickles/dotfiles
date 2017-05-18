@@ -141,12 +141,8 @@
 
 	insteadOf = "gist:"
 
-# additional tools
+# private config, e.g. user name/email
 
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+[include]
+	path = ~/.gitconfig_private
 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
