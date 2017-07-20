@@ -62,6 +62,8 @@ alias fix-appstore="pkill storedownload storeasset storeacc storeuid storeleg st
 alias fix-dock="killall Dock"
 # reload hosts file -- must be run with sudo
 alias reload-hosts="dscacheutil -flushcache; killall -HUP mDNSResponder"
+# use in case PDF is registered to an app other than Preview (e.g. Skim)
+alias Preview="open -aPreview"
 
 
 ## brew-cask alternative/new functions
