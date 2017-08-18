@@ -29,7 +29,7 @@ alias speedtest-cachefly="wget-test http://cachefly.cachefly.net/100mb.test"
 alias speedtest-tele2="wget-test http://speedtest.tele2.net/100MB.zip"
 
 # setup environment variables for ROOT
-alias src-root='pushd $(root-config --prefix) >/dev/null; source libexec/thisroot.sh; popd >/dev/null'
+alias src-root='pushd $(root-config --prefix) >/dev/null; source bin/thisroot.sh; popd >/dev/null'
 
 # run to fix environment in a tmux pane
 # https://raim.codingfarm.de/blog/2013/01/30/tmux-update-environment/
