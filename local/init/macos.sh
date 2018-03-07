@@ -202,6 +202,10 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 # Stop iTunes from responding to the keyboard media keys
 #launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
 
+# Disable captive portal for wifi login (use web browser to login)
+# https://apple.stackexchange.com/a/140843/187714
+#defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
+
 ###############################################################################
 # Screen                                                                      #
 ###############################################################################
