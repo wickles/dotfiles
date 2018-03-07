@@ -70,6 +70,8 @@ alias Preview="open -aPreview"
 
 ## brew-cask alternative/new functions
 alias brew-cask-upgrade="brew cask install --force"
+alias brew-cask-outdated="brew cask outdated --greedy --verbose | grep -v latest"
+alias brew-cask-outdated-latest="brew cask outdated --greedy --verbose | grep --color=never latest"
 
 brew-cask-installed () {
     local installed=$(brew cask list --versions)
@@ -79,42 +81,6 @@ brew-cask-installed () {
         for app in "$@"; do
             echo "$installed" | grep "$app"
         done
-    fi
-}
-
-brew-cask-outdated () {
-    local installed=$(brew cask list --versions)
-    local warn=""
-    # if no arguments provided
-    if [ -z "$1" ]; then
-        echo "$installed" | while read line; do
-            local app=$(echo $line | awk '{print $1;}')
-            local latest=$(brew cask _stanza version $app)
-            local tests=$(echo $line | grep $latest)
-            if [ -z "$tests" ]; then
-                echo "$line < $latest"
-            fi
-            if [ -n "$(echo $latest | grep latest)" ]; then # || [ -n "$(echo $line | grep latest)" ]; then
-                warn=$(echo "$warn"; echo "$line <= $latest")
-            fi
-       done
-    # if arguments provided
-    else
-        for app in "$@"; do
-            local latest=$(brew cask _stanza version $app)
-            local line=$(echo "$installed" | grep $app)
-            local tests=$(echo $line | grep $latest)
-            if [ -z "$tests" ]; then
-                echo "$line < $latest"
-            fi
-            if [ -n "$(echo $latest | grep latest)" ]; then # || [ -n "$(echo $line | grep latest)" ]; then
-                warn=$(echo "$warn"; echo "$line <= $latest")
-            fi
-        done
-    fi
-    if [ -n "$warn" ]; then
-        printf "NOTICE: some latest versions matched 'latest'"
-        echo "$warn"
     fi
 }
 
