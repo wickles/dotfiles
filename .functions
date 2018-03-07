@@ -30,6 +30,8 @@ alias speedtest-tele2="wget-test http://speedtest.tele2.net/100MB.zip"
 
 # setup environment variables for ROOT
 alias src-root='pushd $(root-config --prefix) >/dev/null; source bin/thisroot.sh; popd >/dev/null'
+# MySQL DB size query
+alias mysql-df="mysql -e 'SELECT table_schema \"database\", sum(data_length + index_length)/1024/1024 \"size in MB\" FROM information_schema.TABLES GROUP BY table_schema;'"
 
 # run to fix environment in a tmux pane
 # https://raim.codingfarm.de/blog/2013/01/30/tmux-update-environment/
