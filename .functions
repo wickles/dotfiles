@@ -72,6 +72,8 @@ alias Preview="open -aPreview"
 alias brew-cask-upgrade="brew cask install --force"
 alias brew-cask-outdated="brew cask outdated --greedy --verbose | grep -v latest"
 alias brew-cask-outdated-latest="brew cask outdated --greedy --verbose | grep --color=never latest"
+alias brew-cask-df="du -sh /usr/local/Caskroom/*/* | sort -h"
+#alias brew-cask-cleanup="echo 'Not yet implemented.'"
 
 brew-cask-installed () {
     local installed=$(brew cask list --versions)
@@ -82,5 +84,15 @@ brew-cask-installed () {
             echo "$installed" | grep "$app"
         done
     fi
+}
+
+brew-cask-migrated () {
+    local installed=$(brew cask list -1)
+    local casks=$(brew cask search)
+    echo "$installed" | while read line; do
+        if ! [[ $casks =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
+            echo "$line"
+        fi
+    done
 }
 
