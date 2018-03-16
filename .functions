@@ -72,10 +72,10 @@ alias Preview="open -aPreview"
 alias brew-cask-upgrade="brew cask install --force"
 alias brew-cask-outdated="brew cask outdated --greedy --verbose | grep -v latest"
 alias brew-cask-outdated-latest="brew cask outdated --greedy --verbose | grep --color=never latest"
-alias brew-cask-df="du -sh /usr/local/Caskroom/*/* | sort -h"
+alias brew-cask-df="du -sh $(brew --prefix)/Caskroom/*/* | sort -h; du -sh $(brew --prefix)/Caskroom"
 #alias brew-cask-cleanup="echo 'Not yet implemented.'"
 
-brew-cask-installed () {
+function brew-cask-installed () {
     local installed=$(brew cask list --versions)
     if [ -z "$1" ]; then
         echo "$installed"
@@ -86,13 +86,67 @@ brew-cask-installed () {
     fi
 }
 
-brew-cask-migrated () {
+brew-cask-missing () {
     local installed=$(brew cask list -1)
     local casks=$(brew cask search)
-    echo "$installed" | while read line; do
+    while read line; do
         if ! [[ $casks =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
             echo "$line"
         fi
-    done
+    done <<< "$installed"
+}
+
+__clean-cask () {
+    local cask="$1"
+    local caskBasePath="$(brew --prefix)/Caskroom"
+    local caskDirectory="$caskBasePath/$cask"
+    local versionsFound="$(ls -r $caskDirectory/.metadata)"
+    local versionsCurrent="$(echo $versionsFound | sed 1q)"
+    local versionsToRemove="$(echo $versionsFound | sed 1,1d)"
+    if [[ -z "$versionsToRemove" ]]; then
+        echo "Cask $cask is already clean."
+        return
+    fi
+    echo "Cleaning cask $cask ..."
+    if echo "$versionsFound" | grep -q latest; then
+        echo "WARNING: Contains version 'latest', check that version to keep is identified correctly."
+    fi
+    echo "Keeping: $versionsCurrent"
+    echo "Removing: $(echo $versionsToRemove | xargs)"
+
+    echo -n "OK to proceed (y/n)? "
+    read answer </dev/tty
+    if ! echo "$answer" | grep -iq "^y" ; then
+        echo "Aborted."
+        return
+    fi
+
+    if [[ -n ${versionsToRemove} ]]; then
+        pushd $caskDirectory >/dev/null
+        while read version ; do
+            echo "Removing ${cask} ${version} ..."
+            rm -rf "${version}"
+            rm -rf ".metadata/${version}"
+        done <<< "$versionsToRemove"
+        popd >/dev/null
+    fi
+}
+
+brew-cask-clean () {
+    if [[ $# -eq 0 ]]; then
+        echo -n "Clean ALL installed casks (y/n)? "
+        read answer </dev/tty
+        if ! echo "$answer" | grep -iq "^y" ; then
+            echo "Aborted."
+            return
+        fi
+        while read cask; do
+          __clean-cask "${cask}"
+        done <<< "$(brew cask list)"
+    else
+        for cask in "$@"; do
+          __clean-cask "$cask"
+        done
+    fi
 }
 
