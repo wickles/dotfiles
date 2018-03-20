@@ -22,13 +22,13 @@ alias brew-cask-outdated-latest="brew cask outdated --greedy --verbose | grep --
 alias brew-cask-df="du -sh $(brew --prefix)/Caskroom/*/* | sort -h; du -sh $(brew --prefix)/Caskroom"
 #alias brew-cask-cleanup="echo 'Not yet implemented.'"
 
-function brew-cask-installed () {
+brew-cask-installed () {
     local installed=$(brew cask list --versions)
     if [[ -z "$1" ]]; then
         echo "$installed"
     else
         for app in "$@"; do
-            echo "$installed" | grep "$app"
+            echo "$installed" | grep --color=never "$app"
         done
     fi
 }
