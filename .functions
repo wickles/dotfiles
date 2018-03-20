@@ -1,13 +1,29 @@
 #!/bin/bash
-### shell-ambiguous functions
-UNAME_OS="$(uname -s)"
-# MacOS -> Darwin
-# Linux -> Linux
-# Cygwin -> CYGWIN_NT-(X.Y)
-# MinGW -> MINGW(32/64)-(X.Y)
-# MSYS -> MSYS_NT-(X.Y)
+## custom user functions
 
-# define colorized 'ls', being careful about OS distinctions
+## how-to determine OS
+## OSTYPE common values
+# macOS:    darwin(xyz)
+# Linux:    linux-gnu
+# FreeBSD:  freebsd
+# CYGWIN:   cygwin
+## `uname -s` common values
+# macOS:    Darwin
+# Linux:    Linux
+# FreeBSD:  FreeBSD
+# Cygwin:   CYGWIN_NT-(xyz)
+# MinGW:    MINGW(32/64)-(xyz)
+# MSYS:     MSYS_NT-(xyz)
+
+# if OSTYPE empty, set from `uname`
+UNAME_S="$(uname -s)"
+if [ -z $OSTYPE ]; then
+    echo "OSTYPE not found, setting to lower(uname -s)"
+    export OSTYPE="$(echo $UNAME_OS | tr '[:upper:]' '[:lower:]')"
+    echo OSTYPE=$OSTYPE
+fi
+
+# define colorized 'ls', per OS (bsd vs gnu)
 case "$OSTYPE" in
     darwin* | bsd* )
         alias ls='/bin/ls -G' ;;
@@ -54,99 +70,8 @@ tmux-update-env () {
     done < <(tmux show-environment)
 }
 
-
-## Mac specific fuctions
-
-# macOS fixes
-# fix app store being retarded by killing all the shit
-alias fix-appstore="pkill storedownload storeasset storeacc storeuid storeleg storeinst"
-# fix Dock and/or Launchpad
-alias fix-dock="killall Dock"
-# reload hosts file -- must be run with sudo
-alias reload-hosts="dscacheutil -flushcache; killall -HUP mDNSResponder"
-# use in case PDF is registered to an app other than Preview (e.g. Skim)
-alias Preview="open -aPreview"
-
-
-## brew-cask alternative/new functions
-alias brew-cask-upgrade="brew cask install --force"
-alias brew-cask-outdated="brew cask outdated --greedy --verbose | grep -v latest"
-alias brew-cask-outdated-latest="brew cask outdated --greedy --verbose | grep --color=never latest"
-alias brew-cask-df="du -sh $(brew --prefix)/Caskroom/*/* | sort -h; du -sh $(brew --prefix)/Caskroom"
-#alias brew-cask-cleanup="echo 'Not yet implemented.'"
-
-function brew-cask-installed () {
-    local installed=$(brew cask list --versions)
-    if [ -z "$1" ]; then
-        echo "$installed"
-    else
-        for app in "$@"; do
-            echo "$installed" | grep "$app"
-        done
-    fi
-}
-
-brew-cask-missing () {
-    local installed=$(brew cask list -1)
-    local casks=$(brew cask search)
-    while read line; do
-        if ! [[ $casks =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
-            echo "$line"
-        fi
-    done <<< "$installed"
-}
-
-__clean-cask () {
-    local cask="$1"
-    local caskBasePath="$(brew --prefix)/Caskroom"
-    local caskDirectory="$caskBasePath/$cask"
-    local versionsFound="$(ls -r $caskDirectory/.metadata)"
-    local versionsCurrent="$(echo $versionsFound | sed 1q)"
-    local versionsToRemove="$(echo $versionsFound | sed 1,1d)"
-    if [[ -z "$versionsToRemove" ]]; then
-        echo "Cask $cask is already clean."
-        return
-    fi
-    echo "Cleaning cask $cask ..."
-    if echo "$versionsFound" | grep -q latest; then
-        echo "WARNING: Contains version 'latest', check that version to keep is identified correctly."
-    fi
-    echo "Keeping: $versionsCurrent"
-    echo "Removing: $(echo $versionsToRemove | xargs)"
-
-    echo -n "OK to proceed (y/n)? "
-    read answer </dev/tty
-    if ! echo "$answer" | grep -iq "^y" ; then
-        echo "Aborted."
-        return
-    fi
-
-    if [[ -n ${versionsToRemove} ]]; then
-        pushd $caskDirectory >/dev/null
-        while read version ; do
-            echo "Removing ${cask} ${version} ..."
-            rm -rf "${version}"
-            rm -rf ".metadata/${version}"
-        done <<< "$versionsToRemove"
-        popd >/dev/null
-    fi
-}
-
-brew-cask-clean () {
-    if [[ $# -eq 0 ]]; then
-        echo -n "Clean ALL installed casks (y/n)? "
-        read answer </dev/tty
-        if ! echo "$answer" | grep -iq "^y" ; then
-            echo "Aborted."
-            return
-        fi
-        while read cask; do
-          __clean-cask "${cask}"
-        done <<< "$(brew cask list)"
-    else
-        for cask in "$@"; do
-          __clean-cask "$cask"
-        done
-    fi
-}
+# source additional OS-specific functions
+if [[ $OSTYPE == darwin* ]]; then
+    source '.functions_mac'
+fi
 
