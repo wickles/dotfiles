@@ -20,30 +20,21 @@ alias brew-cask-upgrade="brew cask install --force"
 alias brew-cask-outdated="brew cask outdated --greedy --verbose | grep -v latest"
 alias brew-cask-outdated-latest="brew cask outdated --greedy --verbose | grep --color=never latest"
 alias brew-cask-df="du -sh $(brew --prefix)/Caskroom/*/* | sort -h; du -sh $(brew --prefix)/Caskroom"
-#alias brew-cask-cleanup="echo 'Not yet implemented.'"
+alias brew-cask-relics="brew cask list --versions"
 
-brew-cask-installed () {
-    local installed=$(brew cask list --versions)
-    if [[ -z "$1" ]]; then
-        echo "$installed"
-    else
-        for app in "$@"; do
-            echo "$installed" | grep --color=never "$app"
-        done
-    fi
-}
-
+# list installed casks not found in repository
 brew-cask-missing () {
-    local installed=$(brew cask list -1)
+    local list=$(brew cask list -1)
     local casks=$(brew cask search)
     while read line; do
         if ! [[ $casks =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
             echo "$line"
         fi
-    done <<< "$installed"
+    done <<< "$list"
 }
 
-__clean-cask () {
+# helper function for scrubbing casks
+__cask-scrub () {
     local cask="$1"
     local caskBasePath="$(brew --prefix)/Caskroom"
     local caskDirectory="$caskBasePath/$cask"
@@ -79,20 +70,21 @@ __clean-cask () {
     fi
 }
 
-brew-cask-clean () {
+# delete old relics, for some or all casks
+brew-cask-scrub () {
     if [[ $# -eq 0 ]]; then
-        echo -n "Clean ALL installed casks (y/n)? "
+        echo -n "Scrub ALL installed casks (y/n)? "
         read answer </dev/tty
         if ! echo "$answer" | grep -iq "^y" ; then
             echo "Aborted."
             return
         fi
         while read cask; do
-          __clean-cask "${cask}"
-        done <<< "$(brew cask list)"
+          __cask-scrub "${cask}"
+        done <<< "$(brew cask list -1)"
     else
         for cask in "$@"; do
-          __clean-cask "$cask"
+          __cask-scrub "$cask"
         done
     fi
 }
