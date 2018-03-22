@@ -77,10 +77,10 @@ set t_Co=256
 " Any other value is illegal.
 set background=dark
 
-" solarized specific settings
+" set colorscheme
+" enable g:solarized_* options on term-emu without solarized color palette
 "let g:solarized_termcolors=256
 "let g:solarized_termtrans=1
-"let g:solarized_visibility="normal"
 colorscheme solarized
 
 
