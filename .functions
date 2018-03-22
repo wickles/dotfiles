@@ -40,12 +40,12 @@ esac
 alias please='sudo '
 alias fucking='sudo '
 alias get-shell='ps -o command | grep -v -e "\<ps\>" -e grep -e tail | tail -1'
-alias wget-test="wget -O /dev/null"
-alias speedtest-cachefly="wget-test http://cachefly.cachefly.net/100mb.test"
-alias speedtest-tele2="wget-test http://speedtest.tele2.net/100MB.zip"
+alias wget-test='wget -O /dev/null'
+alias speedtest-cachefly='wget-test http://cachefly.cachefly.net/100mb.test'
+alias speedtest-tele2='wget-test http://speedtest.tele2.net/100MB.zip'
 
 # setup environment variables for ROOT
-alias src-root='pushd $(root-config --prefix) >/dev/null; source bin/thisroot.sh; popd >/dev/null'
+alias src-root='pushd $(root-config --prefix) >/dev/null && source bin/thisroot.sh && popd >/dev/null'
 # MySQL DB size query
 alias mysql-df="mysql -e 'SELECT table_schema \"database\", sum(data_length + index_length)/1024/1024 \"size in MB\" FROM information_schema.TABLES GROUP BY table_schema;'"
 

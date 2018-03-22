@@ -9,7 +9,7 @@ alias fix-appstore="pkill storedownload storeasset storeacc storeuid storeleg st
 # fix Dock and/or Launchpad
 alias fix-dock="killall Dock"
 # reload hosts file -- must be run with sudo
-alias reload-hosts="dscacheutil -flushcache; killall -HUP mDNSResponder"
+alias reload-hosts="{ dscacheutil -flushcache; killall -HUP mDNSResponder; }"
 # open file in Preview
 alias Preview="open -aPreview"
 
@@ -19,7 +19,7 @@ alias Preview="open -aPreview"
 alias brew-cask-upgrade="brew cask install --force"
 alias brew-cask-outdated="brew cask outdated --greedy --verbose | grep -v latest"
 alias brew-cask-outdated-latest="brew cask outdated --greedy --verbose | grep --color=never latest"
-alias brew-cask-df="du -sh $(brew --prefix)/Caskroom/*/* | sort -h; du -sh $(brew --prefix)/Caskroom"
+alias brew-cask-df="{ du -sh $(brew --prefix)/Caskroom/*/* | sort -h; du -sh $(brew --prefix)/Caskroom; }"
 alias brew-cask-relics="brew cask list --versions"
 
 # list installed casks not found in repository
