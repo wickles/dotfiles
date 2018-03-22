@@ -72,6 +72,6 @@ tmux-update-env () {
 
 # source additional OS-specific functions
 if [[ $OSTYPE == darwin* ]]; then
-    source '.functions_mac'
+    source $HOME/.functions_mac
 fi
 
