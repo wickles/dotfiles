@@ -38,9 +38,9 @@ __cask-scrub () {
     local cask="$1"
     local caskBasePath="$(brew --prefix)/Caskroom"
     local caskDirectory="$caskBasePath/$cask"
-    local versionsFound="$(ls -r $caskDirectory/.metadata)"
-    local versionsCurrent="$(echo $versionsFound | sed 1q)"
-    local versionsToRemove="$(echo $versionsFound | sed 1,1d)"
+    local versionsFound="$(ls -1 $caskDirectory/.metadata | sort -rV)"
+    local versionToKeep="$(echo $versionsFound | sed 1q)"
+    local versionsToRemove="$(echo $versionsFound | sed 1,1d | sort -V)"
     if [[ -z "$versionsToRemove" ]]; then
         echo "Cask $cask is already clean."
         return
@@ -49,7 +49,7 @@ __cask-scrub () {
     if echo "$versionsFound" | grep -q latest; then
         echo "WARNING: Contains version 'latest', check that version to keep is identified correctly."
     fi
-    echo "Keeping: $versionsCurrent"
+    echo "Keeping: $versionToKeep"
     echo "Removing: $(echo $versionsToRemove | xargs)"
 
     echo -n "OK to proceed (y/n)? "
