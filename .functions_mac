@@ -19,22 +19,40 @@ alias Preview="open -aPreview"
 alias brew-cask-upgrade="brew cask install --force"
 alias brew-cask-outdated="brew cask outdated --greedy --verbose | grep -v latest"
 alias brew-cask-outdated-latest="brew cask outdated --greedy --verbose | grep --color=never latest"
-alias brew-cask-df="{ du -sh $(brew --prefix)/Caskroom/*/* | sort -h; du -sh $(brew --prefix)/Caskroom; }"
+alias brew-cask-df="du -sh $(brew --prefix)/Caskroom/*/* $(brew --prefix)/Caskroom | sort -h"
 alias brew-cask-relics="brew cask list --versions"
+# pass --calculate to compute new checkpoint
+alias brew-cask-appcast="brew cask _appcast_checkpoint"
 
-# list installed casks not found in repository
+# find all local casks with outdated appcasts
+brew-cask-outdated-appcast () {
+    local ARGS
+    if [[ $# -eq 0 ]]; then
+        ARGS=$(brew cask list)
+    else
+        ARGS=$(echo "$@" | tr -s '[:space:]' '\n')
+    fi
+    while read line; do
+        if [[ "$(brew cask _appcast_checkpoint --calculate ${line} 2>&1)" != "$(brew cask _appcast_checkpoint ${line} 2>&1)" ]]; then
+            echo "$line"
+        fi
+    done <<< "$ARGS"
+}
+
+# list installed casks not found in repository (renamed, migrated, or removed)
 brew-cask-missing () {
     local list=$(brew cask list -1)
     local casks=$(brew cask search)
     while read line; do
         if ! [[ $casks =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
+            #brew cask list --versions "$line"
             echo "$line"
         fi
     done <<< "$list"
 }
 
 # helper function for scrubbing casks
-__cask-scrub () {
+__brew-cask-scrubber () {
     local cask="$1"
     local caskBasePath="$(brew --prefix)/Caskroom"
     local caskDirectory="$caskBasePath/$cask"
@@ -70,8 +88,10 @@ __cask-scrub () {
     fi
 }
 
+# TODO: change to pass $(brew cask list --versions <args>) output as param to __cask-scrub
 # delete old relics, for some or all casks
 brew-cask-scrub () {
+    local ARGS
     if [[ $# -eq 0 ]]; then
         echo -n "Scrub ALL installed casks (y/n)? "
         read answer </dev/tty
@@ -79,13 +99,12 @@ brew-cask-scrub () {
             echo "Aborted."
             return
         fi
-        while read cask; do
-          __cask-scrub "${cask}"
-        done <<< "$(brew cask list -1)"
+        ARGS=$(brew cask list -1)
     else
-        for cask in "$@"; do
-          __cask-scrub "$cask"
-        done
+        ARGS=$(echo "$@" | tr -s '[:space:]' '\n')
     fi
+    while read line; do
+      __brew-cask-scrubber "${line}"
+    done <<< "$ARGS"
 }
 
