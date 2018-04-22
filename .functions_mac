@@ -33,8 +33,12 @@ brew-cask-outdated-appcast () {
         ARGS=$(echo "$@" | tr -s '[:space:]' '\n')
     fi
     while read line; do
-        if [[ "$(brew cask _appcast_checkpoint --calculate ${line} 2>&1)" != "$(brew cask _appcast_checkpoint ${line} 2>&1)" ]]; then
-            echo "$line"
+        local old=$(brew cask _appcast_checkpoint --calculate ${line} 2>&1)
+        local new=$(brew cask _appcast_checkpoint ${line} 2>&1)
+        if [[ "$old" != "$new" ]]; then
+            local old_short=$(echo $old | cut -c1-12)
+            local new_short=$(echo $new | cut -c1-12)
+            echo "$line $old_short != $new_short"
         fi
     done <<< "$ARGS"
 }
