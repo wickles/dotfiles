@@ -34,6 +34,9 @@ Plug 'sickill/vim-pasta'
 " Visually display indent levels
 Plug 'nathanaelkane/vim-indent-guides'
 
+" Git gutter indicators
+Plug 'airblade/vim-gitgutter'
+
 " Python enhanced syntax highlighting
 Plug 'hdima/python-syntax'
 let python_highlight_string_formatting = 1
