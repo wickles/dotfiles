@@ -73,7 +73,17 @@ tmux-update-env () {
     done < <(tmux show-environment)
 }
 
-# source additional OS-specific functions
+
+## OS-specific functions
+
+## Linux
+# list outdated packages
+alias apt-outdated='apt list --upgradable | column -t'
+# list manually installed apt packages
+alias apt-list-manual="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
+
+
+## macOS
 if [[ $OSTYPE == darwin* ]]; then
     source $HOME/.functions_mac
 fi
