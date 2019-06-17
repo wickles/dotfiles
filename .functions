@@ -44,6 +44,7 @@ alias wget-test='wget -O /dev/null'
 alias curl-test='curl -o /dev/null'
 alias speedtest-cachefly='curl-test http://cachefly.cachefly.net/100mb.test'
 alias speedtest-tele2='curl-test http://speedtest.tele2.net/100MB.zip'
+alias simple-stress='yes > /dev/null'
 
 # setup environment variables for ROOT
 alias src-root='pushd $(root-config --prefix) >/dev/null && source bin/thisroot.sh && popd >/dev/null'
@@ -80,7 +81,7 @@ tmux-update-env () {
 # list outdated packages
 alias apt-outdated='apt list --upgradable | column -t'
 # list manually installed apt packages
-alias apt-list-manual="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
+alias apt-list-requested="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
 
 
 ## macOS
