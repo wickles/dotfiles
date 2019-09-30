@@ -60,7 +60,7 @@ __brew-cask-scrubber () {
     local cask="$1"
     local caskBasePath="$(brew --prefix)/Caskroom"
     local caskDirectory="$caskBasePath/$cask"
-    local versionsFound="$(ls -1 $caskDirectory/.metadata | sort -rV)"
+    local versionsFound="$(ls -1 $caskDirectory/.metadata | grep -v config.json | sort -rV)"
     local versionToKeep="$(echo $versionsFound | sed 1q)"
     local versionsToRemove="$(echo $versionsFound | sed 1,1d | sort -V)"
     if [[ -z "$versionsToRemove" ]]; then
