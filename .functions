@@ -86,6 +86,6 @@ alias apt-list-requested="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /
 
 ## macOS
 if [[ $OSTYPE == darwin* ]]; then
-    source $HOME/.functions_mac
+    source $HOME/.functions.mac
 fi
 

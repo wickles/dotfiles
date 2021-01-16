@@ -16,11 +16,12 @@ alias Preview="open -aPreview"
 
 ## brew-cask alternative/new functions
 
-alias brew-cask-upgrade="brew cask install --force"
-alias brew-cask-outdated="brew cask outdated --greedy --verbose | grep -v latest"
-alias brew-cask-outdated-latest="brew cask outdated --greedy --verbose | grep --color=never latest"
+
+alias brew-cask-upgrade="brew upgrade --cask"
+alias brew-cask-outdated="brew outdated --cask --greedy --verbose | grep -v latest"
+alias brew-cask-outdated-latest="brew outdated --cask --greedy --verbose | grep --color=never latest"
 alias brew-cask-df="du -sh $(brew --prefix)/Caskroom/*/* $(brew --prefix)/Caskroom | sort -h"
-alias brew-cask-relics="brew cask list --versions"
+alias brew-cask-relics="brew list --cask --versions"
 # pass --calculate to compute new checkpoint
 alias brew-cask-appcast="brew cask _appcast_checkpoint"
 
@@ -28,7 +29,7 @@ alias brew-cask-appcast="brew cask _appcast_checkpoint"
 brew-cask-outdated-appcast () {
     local ARGS
     if [[ $# -eq 0 ]]; then
-        ARGS=$(brew cask list)
+        ARGS=$(brew list --cask)
     else
         ARGS=$(echo "$@" | tr -s '[:space:]' '\n')
     fi
@@ -45,11 +46,11 @@ brew-cask-outdated-appcast () {
 
 # list installed casks not found in repository (renamed, migrated, or removed)
 brew-cask-missing () {
-    local list=$(brew cask list -1)
+    local list=$(brew list --cask -1)
     local casks=$(brew search --casks)
     while read line; do
         if ! [[ $casks =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
-            #brew cask list --versions "$line"
+            #brew list --cask --versions "$line"
             echo "$line"
         fi
     done <<< "$list"
@@ -92,7 +93,7 @@ __brew-cask-scrubber () {
     fi
 }
 
-# TODO: change to pass $(brew cask list --versions <args>) output as param to __cask-scrub
+# TODO: change to pass $(brew list --cask --versions <args>) output as param to __cask-scrub
 # delete old relics, for some or all casks
 brew-cask-scrub () {
     local ARGS
@@ -103,7 +104,7 @@ brew-cask-scrub () {
             echo "Aborted."
             return
         fi
-        ARGS=$(brew cask list -1)
+        ARGS=$(brew list --cask -1)
     else
         ARGS=$(echo "$@" | tr -s '[:space:]' '\n')
     fi
