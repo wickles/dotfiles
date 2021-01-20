@@ -46,14 +46,14 @@ brew-cask-outdated-appcast () {
 
 # list installed casks not found in repository (renamed, migrated, or removed)
 brew-cask-missing () {
-    local list=$(brew list --cask -1)
-    local casks=$(brew search --cask)
+    local installed=$(brew list --cask --full-name -1)
+    local available=$(brew search --cask)
     while read line; do
-        if ! [[ $casks =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
+        if ! [[ $available =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
             #brew list --cask --versions "$line"
             echo "$line"
         fi
-    done <<< "$list"
+    done <<< "$installed"
 }
 
 # helper function for scrubbing casks
