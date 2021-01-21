@@ -14,40 +14,33 @@ alias reload-hosts="{ dscacheutil -flushcache; killall -HUP mDNSResponder; }"
 alias Preview="open -aPreview"
 
 
-## brew-cask alternative/new functions
+## Homebrew extra functions
 
-
+alias brew-fmla-upgrade="brew upgrade --formula"
 alias brew-cask-upgrade="brew upgrade --cask"
+alias brew-fmla-outdated="brew outdated --formula"
 alias brew-cask-outdated="brew outdated --cask --greedy --verbose | grep -v latest"
 alias brew-cask-outdated-latest="brew outdated --cask --greedy --verbose | grep --color=never latest"
+alias brew-fmla-df="du -sh $(brew --prefix)/Cellar/*/* $(brew --prefix)/Cellar | sort -h"
 alias brew-cask-df="du -sh $(brew --prefix)/Caskroom/*/* $(brew --prefix)/Caskroom | sort -h"
 alias brew-cask-relics="brew list --cask --versions"
-# pass --calculate to compute new checkpoint
-alias brew-cask-appcast="brew cask _appcast_checkpoint"
 
-# find all local casks with outdated appcasts
-brew-cask-outdated-appcast () {
-    local ARGS
-    if [[ $# -eq 0 ]]; then
-        ARGS=$(brew list --cask)
-    else
-        ARGS=$(echo "$@" | tr -s '[:space:]' '\n')
-    fi
+# list installed casks not found in repository (renamed, migrated, or removed)
+brew-fmla-missing () {
+    local installed="$(brew list --formula --full-name -1)"
+    local available="$(brew formulae)"
     while read line; do
-        local old=$(brew cask _appcast_checkpoint --calculate ${line} 2>&1)
-        local new=$(brew cask _appcast_checkpoint ${line} 2>&1)
-        if [[ "$old" != "$new" ]]; then
-            local old_short=$(echo $old | cut -c1-12)
-            local new_short=$(echo $new | cut -c1-12)
-            echo "$line $old_short != $new_short"
+        if ! [[ $available =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
+            #brew list --cask --versions "$line"
+            echo "$line"
         fi
-    done <<< "$ARGS"
+    done <<< "$installed"
 }
 
 # list installed casks not found in repository (renamed, migrated, or removed)
 brew-cask-missing () {
-    local installed=$(brew list --cask --full-name -1)
-    local available=$(brew search --cask)
+    local installed="$(brew list --cask --full-name -1)"
+    local available="$(brew search --cask)"
     while read line; do
         if ! [[ $available =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
             #brew list --cask --versions "$line"
@@ -57,6 +50,7 @@ brew-cask-missing () {
 }
 
 # helper function for scrubbing casks
+# (Deprecated, because homebrew-cask no longer keeps relics)
 __brew-cask-scrubber () {
     local cask="$1"
     local caskBasePath="$(brew --prefix)/Caskroom"
@@ -75,7 +69,7 @@ __brew-cask-scrubber () {
     echo "Keeping: $versionToKeep"
     echo "Removing: $(echo $versionsToRemove | xargs)"
 
-    echo -n "OK to proceed (y/n)? "
+    echo -n "OK to proceed [y/n]? "
     read answer </dev/tty
     if ! echo "$answer" | grep -iq "^y" ; then
         echo "Aborted."
@@ -96,20 +90,20 @@ __brew-cask-scrubber () {
 # TODO: change to pass $(brew list --cask --versions <args>) output as param to __cask-scrub
 # delete old relics, for some or all casks
 brew-cask-scrub () {
-    local ARGS
+    local casks
     if [[ $# -eq 0 ]]; then
-        echo -n "Scrub ALL installed casks (y/n)? "
+        echo -n "Scrub ALL installed casks (interactive) [y/n]? "
         read answer </dev/tty
         if ! echo "$answer" | grep -iq "^y" ; then
             echo "Aborted."
             return
         fi
-        ARGS=$(brew list --cask -1)
+        casks="$(brew list --cask -1)"
     else
-        ARGS=$(echo "$@" | tr -s '[:space:]' '\n')
+        casks="$(echo "$@" | tr -s '[:space:]' '\n')"
     fi
     while read line; do
       __brew-cask-scrubber "${line}"
-    done <<< "$ARGS"
+    done <<< "$casks"
 }
 
