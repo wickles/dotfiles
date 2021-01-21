@@ -1,0 +1,42 @@
+# tools
+brew "autoconf"
+brew "automake"
+brew "cmake"
+brew "doxygen"
+brew "gcc"
+brew "git"
+brew "python3"
+brew "pkg-config"
+brew "subversion"
+brew "wget"
+brew "xz"
+# WARNING: links with g- prefix
+brew "libtool"
+brew "make"
+
+# libraries
+brew "gpgme"
+brew "libelf"
+brew "libusb-compat"
+# WARNING: keg-only
+brew "openssl"
+brew "readline"
+
+# not keg-only, but (probably) not necessary
+#brew "diffutils"
+#brew "gzip"
+#brew "gnu-tar"
+#brew "gpatch"
+
+# keg-only, already provided by macOS
+#brew "bison"
+#brew "bzip2"
+#brew "curl"
+#brew "flex"
+#brew "libarchive"
+#brew "m4"
+#brew "ncurses"
+#brew "tcl-tk"
+#brew "texinfo"
+#brew "unzip"
+
