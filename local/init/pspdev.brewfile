@@ -1,4 +1,5 @@
 # tools
+brew "ppsspp"
 brew "autoconf"
 brew "automake"
 brew "cmake"
