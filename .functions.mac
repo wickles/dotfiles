@@ -20,7 +20,7 @@ alias brew-fmla-upgrade="brew upgrade --formula"
 alias brew-cask-upgrade="brew upgrade --cask"
 alias brew-fmla-outdated="brew outdated --formula"
 alias brew-cask-outdated="brew outdated --cask --greedy --verbose | grep -v latest"
-alias brew-cask-outdated-latest="brew outdated --cask --greedy --verbose | grep --color=never latest"
+alias brew-cask-latest="brew outdated --cask --greedy --verbose | grep --color=never latest"
 alias brew-fmla-df="du -sh $(brew --prefix)/Cellar/*/* $(brew --prefix)/Cellar | sort -h"
 alias brew-cask-df="du -sh $(brew --prefix)/Caskroom/*/* $(brew --prefix)/Caskroom | sort -h"
 alias brew-cask-relics="brew list --cask --versions"
@@ -40,7 +40,7 @@ brew-fmla-missing () {
 # list installed casks not found in repository (renamed, migrated, or removed)
 brew-cask-missing () {
     local installed="$(brew list --cask --full-name -1)"
-    local available="$(brew search --cask)"
+    local available="$(brew casks)"
     while read line; do
         if ! [[ $available =~ (^|[[:space:]])$line($|[[:space:]]) ]]; then
             #brew list --cask --versions "$line"
